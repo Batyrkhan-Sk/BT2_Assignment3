@@ -1,43 +1,44 @@
-# Document Q&A Assistant
+# Constitution Q&A Assistant 🇰🇿
 
-A powerful document question-answering system that allows users to upload documents and ask questions about their content. The system uses advanced language models and vector storage to provide accurate answers based on the document content.
+An AI-powered application for querying the Constitution of the Republic of Kazakhstan and other documents using natural language questions.
 
 ## Features
 
-- 📁 Support for multiple document formats (PDF, DOCX, TXT)
-- 💬 Interactive chat interface using Streamlit
-- 🤖 Powered by Ollama with the Mistral model
-- 📚 Vector storage using ChromaDB for efficient document retrieval
-- 🔄 Ability to upload multiple documents simultaneously
+- 📚 Load and query the Constitution of Kazakhstan
+- 📄 Upload and process multiple document types (PDF, DOCX, TXT)
+- 💬 Interactive chat interface
+- 🔍 Smart document search and retrieval
 - 💾 Persistent storage of processed documents
-- 📝 Maintains chat history for context
+- 🤖 Powered by Mistral LLM through Ollama
 
-## Requirements
+## Prerequisites
 
-- Python 3.8+
-- Ollama installed and running locally (with the Mistral model)
+- Python 3.9+
+- Ollama installed with Mistral model
+- macOS/Linux environment
 
 ## Installation
 
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd <repository-name>
+cd <repository-directory>
 ```
 
-2. Create a virtual environment and activate it:
+2. Create and activate a virtual environment:
 ```bash
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-3. Install the required packages:
+3. Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
 
-4. Ensure Ollama is installed and the Mistral model is available:
+4. Install and start Ollama with Mistral model:
 ```bash
+# Install Ollama from: https://ollama.ai/
 ollama pull mistral
 ```
 
@@ -45,44 +46,54 @@ ollama pull mistral
 
 1. Start the application:
 ```bash
-streamlit run document_qa.py
+streamlit run constitution_qa_v2.py
 ```
 
-2. Upload your documents:
-   - Click the "Upload your documents" button in the sidebar
-   - Select one or multiple files (PDF, DOCX, or TXT)
-   - Wait for the documents to be processed
+2. Load the Constitution:
+   - Copy the Constitution text from [official source](https://www.akorda.kz/en/constitution-of-the-republic-of-kazakhstan-50912)
+   - Paste it into the sidebar text area
+   - Click "Process Constitution"
 
-3. Ask questions:
-   - Type your question in the chat input at the bottom
-   - The system will provide answers based on the content of your uploaded documents
-   - The chat history will be maintained for context
+3. Upload additional documents (optional):
+   - Use the file uploader in the sidebar
+   - Support for PDF, DOCX, and TXT files
+   - Click "Process Files" after uploading
 
-## Supported File Types
+4. Ask questions:
+   - Choose the source (Constitution/Uploaded Documents/Both)
+   - Type your question in the chat input
+   - View answers with relevant context
 
-- PDF documents (*.pdf)
-- Word documents (*.docx)
-- Text files (*.txt)
+## Project Structure
 
-## Notes
+```
+.
+├── constitution_qa_v2.py    # Main application file
+├── requirements.txt         # Python dependencies
+├── vectorstore/            # Persistent storage for embeddings
+└── uploads/               # Temporary storage for uploaded files
+```
 
-- The system maintains a vector store of processed documents for efficient retrieval
-- Documents are processed only once and stored for future use
-- The chat interface maintains context through conversation history
-- All answers are derived directly from the uploaded documents
+## Technical Details
+
+- **Frontend**: Streamlit
+- **LLM**: Mistral (via Ollama)
+- **Vector Store**: ChromaDB
+- **Embeddings**: HuggingFace Sentence Transformers
+- **Document Processing**: LangChain
 
 ## Error Handling
 
-The application includes robust error handling for:
-- File processing issues
-- LLM initialization problems
+The application includes comprehensive error handling for:
+- File uploads
+- Document processing
+- LLM interactions
 - Vector store operations
-- Invalid file types
-- Network connectivity issues
 
-## Directory Structure
+## Contributing
 
-- `uploads/`: Temporary storage for uploaded files
-- `vectorstore/`: Persistent storage for processed documents
-- `document_qa.py`: Main application file
-- `requirements.txt`: Python dependencies
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

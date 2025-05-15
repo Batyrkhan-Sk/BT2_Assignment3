@@ -4,6 +4,7 @@ langchain-community>=0.0.28
 langchain-core>=0.1.30
 langchain-chroma>=0.0.15
 langchain-huggingface>=0.0.10
+langchain-ollama>=0.0.3
 sentence-transformers>=2.6.0
 chromadb==0.4.24
 numpy>=1.26.0
