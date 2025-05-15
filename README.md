@@ -1,182 +1,88 @@
-# BT2\_Assignment3
+# Document Q&A Assistant
 
-## 📘 Project Overview
+A powerful document question-answering system that allows users to upload documents and ask questions about their content. The system uses advanced language models and vector storage to provide accurate answers based on the document content.
 
-**BT2\_Assignment3** is an AI assistant trained on the Constitution of the Republic of Kazakhstan. Built with Python, it leverages natural language processing libraries to analyze and interact with the constitutional text.
+## Features
 
-## 📁 Repository Structure
+- 📁 Support for multiple document formats (PDF, DOCX, TXT)
+- 💬 Interactive chat interface using Streamlit
+- 🤖 Powered by Ollama with the Mistral model
+- 📚 Vector storage using ChromaDB for efficient document retrieval
+- 🔄 Ability to upload multiple documents simultaneously
+- 💾 Persistent storage of processed documents
+- 📝 Maintains chat history for context
 
-```plaintext
-├── ai_assistant_kz_constitution.py       # Main AI assistant script
-├── constitution_reader.py                # Module for reading and processing the Constitution text
-├── download_nltk_data.py                 # Script to download necessary NLTK data
-├── test_ollama.py                        # Test script for functionality
-├── test_ollama_detailed.py               # Detailed test script
-├── constitution.json                     # Constitution text in JSON format
-├── constitution (1-я копия).txt          # Constitution text in TXT format
-├── requirements.txt                      # List of project dependencies
-├── data/                                 # Directory for storing data
-└── vectorstores/db/                      # Directory for storing vector representations
-```
+## Requirements
 
+- Python 3.8+
+- Ollama installed and running locally (with the Mistral model)
 
+## Installation
 
-## ⚙️ Installation and Execution
-
-### 🔧 Prerequisites
-
-* Python 3.8 or higher
-* pip (Python package manager)
-
-
-
-
-### 🪟 Windows
-
-1. **Install Python**:
-
-   * Download the installer from the [official website](https://www.python.org/downloads/windows/).
-   * During installation, ensure you check the box "Add Python to PATH".
-
-2. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/Batyrkhan-Sk/BT2_Assignment3.git
-   cd BT2_Assignment3
-   ```
-
-
-
-3. **Create a virtual environment** (recommended):
-
-   ```bash
-   python -m venv venv
-   venv\Scripts\activate
-   ```
-
-
-
-4. **Install dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-
-
-5. **Run the script**:
-
-   ```bash
-   python ai_assistant_kz_constitution.py
-   ```
-
-
-
-
-
-### 🐧 Arch Linux with Hyprland
-
-1. **Install Python and pip** (if not already installed):
-
-   ```bash
-   sudo pacman -S python python-pip
-   ```
-
-
-
-2. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/Batyrkhan-Sk/BT2_Assignment3.git
-   cd BT2_Assignment3
-   ```
-
-
-3. **Create a virtual environment** (recommended):
-
-   ```bash
-   python -m venv venv
-   source venv/bin/activate
-   ```
-
-
-4. **Install dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-
-5. **Run the script**:
-
-   ```bash
-   python ai_assistant_kz_constitution.py
-   ```
-
-
-
-
-### 🍎 macOS
-
-1. **Install Homebrew** (if not already installed):
-
-   ```bash
-   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   ```
-
-
-
-2. **Install Python**:
-
-   ```bash
-   brew install python
-   ```
-
-
-
-3. **Clone the repository**:
-
-   ```bash
-   git clone https://github.com/Batyrkhan-Sk/BT2_Assignment3.git
-   cd BT2_Assignment3
-   ```
-
-
-
-4. **Create a virtual environment** (recommended):
-
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
-
-5. **Install dependencies**:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-
-
-6. **Run the script**:
-
-   ```bash
-   python ai_assistant_kz_constitution.py
-   ```
-
-
-
-## 🧪 Testing
-
-To run the test scripts, execute the following commands:
-
+1. Clone the repository:
 ```bash
-python test_ollama.py
-python test_ollama_detailed.py
+git clone <repository-url>
+cd <repository-name>
 ```
 
+2. Create a virtual environment and activate it:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
+3. Install the required packages:
+```bash
+pip install -r requirements.txt
+```
 
-## 📄 License
+4. Ensure Ollama is installed and the Mistral model is available:
+```bash
+ollama pull mistral
+```
 
-This project is licensed under the MIT License.
+## Usage
+
+1. Start the application:
+```bash
+streamlit run document_qa.py
+```
+
+2. Upload your documents:
+   - Click the "Upload your documents" button in the sidebar
+   - Select one or multiple files (PDF, DOCX, or TXT)
+   - Wait for the documents to be processed
+
+3. Ask questions:
+   - Type your question in the chat input at the bottom
+   - The system will provide answers based on the content of your uploaded documents
+   - The chat history will be maintained for context
+
+## Supported File Types
+
+- PDF documents (*.pdf)
+- Word documents (*.docx)
+- Text files (*.txt)
+
+## Notes
+
+- The system maintains a vector store of processed documents for efficient retrieval
+- Documents are processed only once and stored for future use
+- The chat interface maintains context through conversation history
+- All answers are derived directly from the uploaded documents
+
+## Error Handling
+
+The application includes robust error handling for:
+- File processing issues
+- LLM initialization problems
+- Vector store operations
+- Invalid file types
+- Network connectivity issues
+
+## Directory Structure
+
+- `uploads/`: Temporary storage for uploaded files
+- `vectorstore/`: Persistent storage for processed documents
+- `document_qa.py`: Main application file
+- `requirements.txt`: Python dependencies
