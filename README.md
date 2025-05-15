@@ -21,7 +21,7 @@ A powerful document question-answering system that allows users to upload docume
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/Batyrkhan-Sk/BT2_Assignment3.git
 cd <repository-name>
 ```
 
@@ -86,3 +86,14 @@ The application includes robust error handling for:
 - `vectorstore/`: Persistent storage for processed documents
 - `document_qa.py`: Main application file
 - `requirements.txt`: Python dependencies
+
+## Screens of work
+With the loaded file:
+<img width="1440" alt="Screenshot 2025-05-15 at 17 04 43" src="https://github.com/user-attachments/assets/3bab40e3-c7f3-4ad1-bada-a5235039dc16" />
+<img width="1440" alt="Screenshot 2025-05-15 at 17 05 07" src="https://github.com/user-attachments/assets/560afc42-4a6e-4de3-b571-6c7d872e5b24" />
+Without:
+<img width="1440" alt="Screenshot 2025-05-15 at 17 05 50" src="https://github.com/user-attachments/assets/66af3535-a290-49ae-974d-433db69615a2" />
+Thinking
+<img width="968" alt="Screenshot 2025-05-15 at 17 07 41" src="https://github.com/user-attachments/assets/a6bde1f0-6e9b-473d-af04-764980feb320" />
+Saving in vectorstore
+<img width="162" alt="Screenshot 2025-05-15 at 17 08 45" src="https://github.com/user-attachments/assets/4b7b85e6-5bd2-43be-8476-592b3c9d9722" />
