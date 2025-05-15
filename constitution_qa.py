@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import chromadb
 from typing import List
+import re
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader, UnstructuredFileLoader
@@ -18,13 +19,11 @@ from langchain.schema import Document
 from langchain.chains.combine_documents.stuff import StuffDocumentsChain
 from langchain_community.vectorstores import Chroma
 
-# Constants
 DB_DIR = "vectorstore/"
 CHAT_COLLECTION = "chat_history"
 CONSTITUTION_COLLECTION = "constitution"
 UPLOADS_COLLECTION = "uploaded_docs"
 
-# Custom prompt template for Constitution Q&A
 CUSTOM_PROMPT = """You are a helpful AI assistant specializing in the Constitution of the Republic of Kazakhstan. Your task is to provide accurate and relevant information.
 
 RULES:
@@ -33,6 +32,7 @@ RULES:
 3. Use bullet points for structured info
 4. Cite article numbers if mentioned
 5. Keep a formal and respectful tone
+6. The Constitution of Kazakhstan has 99 articles. If asked about the number of articles, always answer 99.
 
 Question: {question}
 Context: {context}
@@ -96,6 +96,24 @@ def process_documents(docs: List[Document]) -> List[Document]:
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     return splitter.split_documents(docs)
 
+def process_constitution_text(text):
+    """Pre-process constitution text to ensure accurate article counting"""
+    articles = re.findall(r'Article (\d+)\.\s+(.*?)(?=Article \d+\.|$)', text, re.DOTALL)
+    
+    processed_docs = []
+    if articles:
+        for article_num, content in articles:
+            doc = Document(
+                page_content=f"Article {article_num}. {content.strip()}",
+                metadata={"source": "Constitution", "article": int(article_num)}
+            )
+            processed_docs.append(doc)
+    else:
+        doc = Document(page_content=text, metadata={"source": "Constitution"})
+        processed_docs = process_documents([doc])
+        
+    return processed_docs
+
 def main():
     st.set_page_config(page_title="🇰🇿 Kazakhstan Constitution Assistant", layout="wide")
     st.title("🇰🇿 Constitution & Document AI Assistant")
@@ -111,16 +129,14 @@ def main():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    # Constitution Text Input
-    st.sidebar.header("📜 Load Constitution")
+    st.sidebar.header("Load Constitution")
     constitution_text = st.sidebar.text_area("Paste Constitution Text", height=300)
     if st.sidebar.button("Process Constitution"):
         if constitution_text:
-            docs = process_documents([Document(page_content=constitution_text, metadata={"source": "Constitution"})])
+            docs = process_constitution_text(constitution_text)
             st.session_state.constitution_vectorstore.add_documents(docs)
-            st.success("✅ Constitution loaded and embedded!")
+            st.success(f"Constitution loaded and embedded! {len(docs)} articles processed.")
 
-    # File Upload Section
     st.sidebar.header("📎 Upload Documents")
     uploaded_files = st.sidebar.file_uploader("Upload files", accept_multiple_files=True, type=["pdf", "txt", "docx"])
     if st.sidebar.button("Process Files"):
@@ -129,14 +145,12 @@ def main():
                 raw_docs = load_documents(uploaded_files)
                 processed_docs = process_documents(raw_docs)
                 st.session_state.uploaded_vectorstore.add_documents(processed_docs)
-                st.success("✅ Files processed and embedded!")
+                st.success("Files processed and embedded!")
         else:
             st.warning("Please upload at least one document.")
 
-    # Select Document Source
     source_option = st.sidebar.radio("Answer questions using:", ["Constitution", "Uploaded Documents", "Both"])
 
-    # Chat Section
     for msg in st.session_state.chat_history:
         with st.chat_message(msg["role"]):
             st.write(msg["content"])
@@ -152,13 +166,11 @@ def main():
                     llm = Ollama(model="mistral")
                     prompt = PromptTemplate(input_variables=["chat_history", "context", "question"], template=CUSTOM_PROMPT)
 
-                    # Choose retriever
                     if source_option == "Constitution":
                         retriever = st.session_state.constitution_vectorstore.as_retriever(search_kwargs={"k": 3})
                     elif source_option == "Uploaded Documents":
                         retriever = st.session_state.uploaded_vectorstore.as_retriever(search_kwargs={"k": 3})
                     else:
-                        # Merge both sources
                         retrievers = [
                             st.session_state.constitution_vectorstore.as_retriever(search_kwargs={"k": 2}),
                             st.session_state.uploaded_vectorstore.as_retriever(search_kwargs={"k": 2})
@@ -177,11 +189,11 @@ def main():
                     answer = response["answer"]
                     st.write(answer)
 
-                    # Store and append
+                   
                     store_chat_interaction(st.session_state.chat_vectorstore, question, answer)
                     st.session_state.chat_history.append({"role": "assistant", "content": answer})
                 except Exception as e:
-                    error = f"❌ Error: {e}"
+                    error = f"Error: {e}"
                     st.error(error)
                     st.session_state.chat_history.append({"role": "assistant", "content": error})
 
