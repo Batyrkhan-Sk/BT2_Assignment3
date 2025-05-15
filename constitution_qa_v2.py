@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime
 import chromadb
 from typing import List
+import asyncio
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader, UnstructuredFileLoader
@@ -56,12 +57,13 @@ def initialize_vectorstore(embeddings, collection_name):
     except:
         collection = chroma_client.create_collection(name=collection_name)
 
-    return Chroma(
+    vectorstore = Chroma(
         client=chroma_client,
         collection_name=collection_name,
         embedding_function=embeddings,
         persist_directory=DB_DIR
     )
+    return vectorstore
 
 def store_chat_interaction(vectorstore, question: str, answer: str):
     timestamp = datetime.now().isoformat()
@@ -95,6 +97,10 @@ def load_documents(files) -> List[Document]:
 def process_documents(docs: List[Document]) -> List[Document]:
     splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     return splitter.split_documents(docs)
+
+async def process_question(chain, question):
+    response = await chain.ainvoke({"question": question})
+    return response["answer"]
 
 def main():
     st.set_page_config(page_title="🇰🇿 Kazakhstan Constitution Assistant", layout="wide")
@@ -149,7 +155,7 @@ def main():
         with st.chat_message("assistant"):
             with st.spinner("Thinking..."):
                 try:
-                    llm = Ollama(model="mistral")
+                    llm = Ollama(model="mistral", temperature=0.7)
                     prompt = PromptTemplate(input_variables=["chat_history", "context", "question"], template=CUSTOM_PROMPT)
 
                     # Choose retriever
@@ -169,12 +175,15 @@ def main():
                     chain = ConversationalRetrievalChain.from_llm(
                         llm=llm,
                         retriever=retriever,
-                        memory=ConversationBufferMemory(memory_key="chat_history", return_messages=True, output_key="answer"),
+                        memory=ConversationBufferMemory(
+                            memory_key="chat_history",
+                            return_messages=True,
+                            output_key="answer"
+                        ),
                         combine_docs_chain_kwargs={"prompt": prompt}
                     )
 
-                    response = chain({"question": question})
-                    answer = response["answer"]
+                    answer = asyncio.run(process_question(chain, question))
                     st.write(answer)
 
                     # Store and append
