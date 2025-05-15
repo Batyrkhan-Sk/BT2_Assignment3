@@ -45,7 +45,7 @@ ollama pull mistral
 
 1. Start the application:
 ```bash
-streamlit run document_qa.py
+streamlit run constitution_qa.py
 ```
 
 2. Upload your documents:
