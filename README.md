@@ -28,6 +28,9 @@
 * Python 3.8 or higher
 * pip (Python package manager)
 
+
+
+
 ### 🪟 Windows
 
 1. **Install Python**:
@@ -69,6 +72,8 @@
 
 
 
+
+
 ### 🐧 Arch Linux with Hyprland
 
 1. **Install Python and pip** (if not already installed):
@@ -107,6 +112,9 @@
    ```bash
    python ai_assistant_kz_constitution.py
    ```
+
+
+
 
 ### 🍎 macOS
 
