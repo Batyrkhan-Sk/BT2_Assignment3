@@ -89,6 +89,19 @@ streamlit run constitution_qa.py
 - The chat interface maintains context through conversation history
 - All answers are derived directly from the uploaded documents
 
+## How It Works
+
+Uses LangChain to process and split documents
+
+Generates embeddings with HuggingFace
+
+Stores vectors persistently using ChromaDB
+
+Queries are passed to Ollama + Mistral for natural-language responses
+
+Stores chat interactions in vector storage for ongoing context
+
+
 ## Error Handling
 
 The application includes robust error handling for:
