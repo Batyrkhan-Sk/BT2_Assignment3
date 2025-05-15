@@ -59,6 +59,11 @@ pip install -r requirements.txt
 ollama pull mistral
 ```
 
+5.Install dependecies
+```
+pip install pdfminer.six "unstructured[pdf]"
+```
+
 ## Usage
 
 1. Start the application:
