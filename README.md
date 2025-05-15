@@ -1,16 +1,34 @@
-# Document Q&A Assistant
+# Constiution Q&A Assistant
 
-A powerful document question-answering system that allows users to upload documents and ask questions about their content. The system uses advanced language models and vector storage to provide accurate answers based on the document content.
+An interactive AI-powered assistant that allows users to upload documents and ask questions about their contents. Optimized for exploring the Constitution of the Republic of Kazakhstan, this system leverages advanced language models, semantic search, and vector storage to deliver accurate, context-aware answers.
+
 
 ## Features
 
-- 📁 Support for multiple document formats (PDF, DOCX, TXT)
-- 💬 Interactive chat interface using Streamlit
-- 🤖 Powered by Ollama with the Mistral model
-- 📚 Vector storage using ChromaDB for efficient document retrieval
-- 🔄 Ability to upload multiple documents simultaneously
-- 💾 Persistent storage of processed documents
-- 📝 Maintains chat history for context
+📁 Multi-format Document Support
+Upload and process .pdf, .docx, and .txt files.
+
+💬 Conversational Chat Interface
+Powered by Streamlit, designed for seamless question-answer interaction.
+
+🧠 LLM-Driven Answers
+Uses Ollama with the Mistral model for fast, smart responses.
+
+📚 Efficient Document Retrieval
+Embedded content is stored in ChromaDB for persistent, vectorized search.
+
+📝 Context-Aware Memory
+Maintains full chat history to support follow-up questions and deeper exploration.
+
+🔄 Flexible Source Selection
+Choose to ask about:
+
+The Constitution
+
+Uploaded documents
+
+Or both combined
+
 
 ## Requirements
 
