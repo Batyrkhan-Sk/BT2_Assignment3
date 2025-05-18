@@ -1,0 +1,8 @@
+python-dotenv==1.0.0
+requests==2.31.0
+openai==1.10.0
+pycoingecko==3.1.0
+streamlit==1.32.0
+pydantic==2.6.1
+aiohttp==3.9.3
+urllib3<2.0.0 
