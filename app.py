@@ -46,7 +46,7 @@ st.markdown("""
         margin: 0.5rem 0;
     }
     .news-card {
-        background-color: #ffffff;
+        background-color: #000000;
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
@@ -110,7 +110,7 @@ async def process_query():
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    st.subheader("📊 Market Data")
+                    st.subheader("Market Data")
                     st.markdown(f"""
                     <div class="metric-card">
                         <h3>Price Information</h3>
@@ -131,7 +131,7 @@ async def process_query():
                     """, unsafe_allow_html=True)
                 
                 with col2:
-                    st.subheader("📰 Latest News")
+                    st.subheader("Latest News")
                     for item in news:
                         st.markdown(f"""
                         <div class="news-card">
@@ -143,7 +143,7 @@ async def process_query():
                         """, unsafe_allow_html=True)
                 
                 # AI Analysis
-                st.subheader("🤖 AI Analysis")
+                st.subheader("AI Analysis")
                 st.markdown(ai_response)
                 
         except Exception as e:
