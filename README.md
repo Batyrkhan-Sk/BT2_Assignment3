@@ -5,7 +5,7 @@ A modern web application that provides real-time cryptocurrency information, new
 ## Features 
 
 - Real-time price and market data from CoinGecko
-- Latest news from CryptoPanic
+- Latest news from CoinTelegraph
 - AI-powered analysis using OpenAI GPT
 - User-friendly interface with Streamlit
 - Automatic data updates
