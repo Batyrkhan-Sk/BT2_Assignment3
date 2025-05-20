@@ -1,18 +1,11 @@
 import os
 from typing import Dict, Any
-import aiohttp
 from pycoingecko import CoinGeckoAPI
 
 class MarketService:
     def __init__(self):
         # Initialize CoinGecko client
         self.coingecko_client = CoinGeckoAPI()
-        
-        # Initialize CoinMarketCap headers
-        self.cmc_headers = {
-            'X-CMC_PRO_API_KEY': os.getenv('COINMARKETCAP_API_KEY'),
-            'Accept': 'application/json'
-        }
         
     async def get_price(self, crypto_name: str) -> Dict[str, Any]:
         """Get current price and 24h change from CoinGecko."""
@@ -24,6 +17,9 @@ class MarketService:
                 include_24hr_vol=True
             )
             
+            if not data or crypto_name.lower() not in data:
+                raise Exception(f"Could not find data for {crypto_name}")
+            
             return {
                 "symbol": crypto_name.upper(),
                 "price": data[crypto_name.lower()]["usd"],
@@ -31,27 +27,7 @@ class MarketService:
                 "volume_24h": data[crypto_name.lower()]["usd_24h_vol"]
             }
         except Exception as e:
-            # Fallback to CoinMarketCap if CoinGecko fails
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(
-                        'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
-                        headers=self.cmc_headers,
-                        params={'symbol': crypto_name.upper()}
-                    ) as response:
-                        if response.status == 200:
-                            data = await response.json()
-                            quote = data['data'][crypto_name.upper()]['quote']['USD']
-                            return {
-                                "symbol": crypto_name.upper(),
-                                "price": quote['price'],
-                                "price_change_24h": quote['percent_change_24h'],
-                                "volume_24h": quote['volume_24h']
-                            }
-                        else:
-                            raise Exception(f"CoinMarketCap API error: {response.status}")
-            except Exception as e2:
-                raise Exception(f"Failed to get price data: {str(e2)}")
+            raise Exception(f"Failed to get price data: {str(e)}")
     
     async def get_market_data(self, crypto_name: str) -> Dict[str, Any]:
         """Get market cap and ranking from CoinGecko."""
@@ -65,6 +41,9 @@ class MarketService:
                 developer_data=False
             )
             
+            if not data:
+                raise Exception(f"Could not find data for {crypto_name}")
+            
             return {
                 "name": data["name"],
                 "symbol": data["symbol"].upper(),
@@ -75,27 +54,4 @@ class MarketService:
                 "total_supply": data["market_data"]["total_supply"]
             }
         except Exception as e:
-            # Fallback to CoinMarketCap if CoinGecko fails
-            try:
-                async with aiohttp.ClientSession() as session:
-                    async with session.get(
-                        'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest',
-                        headers=self.cmc_headers,
-                        params={'symbol': crypto_name.upper()}
-                    ) as response:
-                        if response.status == 200:
-                            data = await response.json()
-                            quote = data['data'][crypto_name.upper()]['quote']['USD']
-                            return {
-                                "name": data['data'][crypto_name.upper()]['name'],
-                                "symbol": crypto_name.upper(),
-                                "market_cap": quote['market_cap'],
-                                "market_cap_rank": data['data'][crypto_name.upper()]['cmc_rank'],
-                                "total_volume": quote['volume_24h'],
-                                "circulating_supply": data['data'][crypto_name.upper()]['circulating_supply'],
-                                "total_supply": data['data'][crypto_name.upper()]['total_supply']
-                            }
-                        else:
-                            raise Exception(f"CoinMarketCap API error: {response.status}")
-            except Exception as e2:
-                raise Exception(f"Failed to get market data: {str(e2)}") 
+            raise Exception(f"Failed to get market data: {str(e)}") 

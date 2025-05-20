@@ -18,17 +18,6 @@ st.set_page_config(
 # Load environment variables
 load_dotenv(override=True)
 
-# Debug: Print environment variables (without sensitive values)
-st.write("Environment Variables Status:")
-env_vars = {
-    "OPENAI_API_KEY": "Set" if os.getenv("OPENAI_API_KEY") else "Not Set",
-    "COINGECKO_API_KEY": "Set" if os.getenv("COINGECKO_API_KEY") else "Not Set",
-    "COINMARKETCAP_API_KEY": "Set" if os.getenv("COINMARKETCAP_API_KEY") else "Not Set",
-    "CRYPTOPANIC_API_KEY": "Set" if os.getenv("CRYPTOPANIC_API_KEY") else "Not Set",
-    "OLLAMA_URL": os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate"),
-    "OLLAMA_MODEL": os.getenv("OLLAMA_MODEL", "mistral")
-}
-st.json(env_vars)
 
 # Custom CSS
 st.markdown("""
@@ -40,17 +29,28 @@ st.markdown("""
         width: 100%;
     }
     .metric-card {
-        background-color: #f0f2f6;
+        background-color: var(--background-color);
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
+        color: var(--text-color);
     }
     .news-card {
-        background-color: #ffffff;
+        background-color: var(--background-color);
         padding: 1rem;
         border-radius: 0.5rem;
         margin: 0.5rem 0;
-        border: 1px solid #e0e0e0;
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+    }
+    .metric-card h3, .news-card h4 {
+        color: var(--text-color);
+    }
+    .metric-card p, .news-card p {
+        color: var(--text-color);
+    }
+    .news-card a {
+        color: var(--link-color);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -127,25 +127,26 @@ async def process_query():
                 with col2:
                     st.subheader("📰 Latest News")
                     try:
-                        news = await news_service.get_news(crypto_name)
-                        if news:
+                        # Add timeout for news fetching
+                        news = await asyncio.wait_for(news_service.get_news(crypto_name), timeout=10.0)
+                        if news and len(news) > 0:
                             for item in news:
                                 st.markdown(f"""
                                 <div class="news-card">
                                     <h4>{item['title']}</h4>
-                                    <p>Source: {item['source']}</p>
-                                    <p>Published: {item['published_at']}</p>
-                                    <a href="{item['url']}" target="_blank">Read more</a>
+                                    <p><strong>Source:</strong> {item['source']}</p>
+                                    <p><strong>Published:</strong> {item['published_at']}</p>
+                                    <p><strong>Related Cryptocurrencies:</strong> {', '.join(item['currencies'])}</p>
+                                    <a href="{item['url']}" target="_blank">Read full article</a>
                                 </div>
                                 """, unsafe_allow_html=True)
                         else:
-                            st.info("No recent news found for this cryptocurrency.")
-                    except ValueError as ve:
-                        st.error(str(ve))
-                        st.info("To enable news functionality, please set up your CryptoPanic API key in the .env file.")
+                            st.info(f"No recent news found for {crypto_name.upper()}. Try searching for a different cryptocurrency.")
+                    except asyncio.TimeoutError:
+                        st.error("News service timed out. Please try again in a few moments.")
                     except Exception as e:
-                        st.error(f"Failed to fetch news: {str(e)}")
-                        st.info("News functionality is temporarily unavailable. Please try again later.")
+                        st.error(f"Error fetching news: {str(e)}")
+                        st.info("Please try again later or try a different cryptocurrency.")
                 
                 # Generate AI response
                 try:
@@ -164,7 +165,7 @@ async def process_query():
 st.markdown("---")
 st.markdown(f"""
 <div style='text-align: center'>
-    <p>Powered by OpenAI GPT, CoinGecko, and CryptoPanic APIs</p>
+    <p>Powered by CoinTelegraph, CoinGecko, and CryptoPanic APIs</p>
     <p>Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
 </div>
 """, unsafe_allow_html=True)

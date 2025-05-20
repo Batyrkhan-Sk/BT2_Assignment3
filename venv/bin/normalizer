@@ -1,4 +1,6 @@
-#!/Users/gazizatanirbergen/BT2_Assignment4/venv/bin/python3
+#!/bin/sh
+'''exec' "/home/nurbolik/Assaigment 4/BT2_Assignment3/venv/bin/python3.11" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
