@@ -1,17 +1,17 @@
-# AI Crypto Assistant 🤖
+# AI Crypto Assistant 
 
 A modern web application that provides real-time cryptocurrency information, news, and AI-powered insights using Streamlit.
 
-## Features ✨
+## Features 
 
-- 📊 Real-time price and market data from CoinGecko
-- 📰 Latest news from CryptoPanic
-- 🤖 AI-powered analysis using OpenAI GPT
-- 💡 User-friendly interface with Streamlit
-- 🔄 Automatic data updates
-- 📱 Responsive design
+- Real-time price and market data from CoinGecko
+- Latest news from CryptoPanic
+- AI-powered analysis using OpenAI GPT
+- User-friendly interface with Streamlit
+- Automatic data updates
+- Responsive design
 
-## Setup 🛠️
+## Setup 🛠
 
 1. Clone the repository:
    ```bash
@@ -38,7 +38,7 @@ A modern web application that provides real-time cryptocurrency information, new
    CRYPTOPANIC_API_KEY=your_cryptopanic_api_key
    ```
 
-## Running the Application 🚀
+## Running the Application 
 
 1. Start the Streamlit app:
    ```bash
@@ -47,13 +47,13 @@ A modern web application that provides real-time cryptocurrency information, new
 
 2. Open your browser and navigate to `http://localhost:8501`
 
-## Example Queries 💭
+## Example Queries 
 
 - "What's the latest news about Ethereum?"
 - "What's the current price and market cap of Solana?"
 - "Tell me about Bitcoin's recent performance"
 
-## Technologies Used 🛠️
+## Technologies Used 
 
 - **Frontend**: Streamlit
 - **Backend**: Python
@@ -63,7 +63,7 @@ A modern web application that provides real-time cryptocurrency information, new
   - CryptoPanic for news
 - **Data Processing**: Python with async support
 
-## Error Handling 🚨
+## Error Handling 
 
 The application includes comprehensive error handling for:
 - API rate limits
@@ -72,7 +72,7 @@ The application includes comprehensive error handling for:
 - Missing API keys
 - Data parsing errors
 
-## Contributing 🤝
+## Contributing 
 
 1. Fork the repository
 2. Create a feature branch
