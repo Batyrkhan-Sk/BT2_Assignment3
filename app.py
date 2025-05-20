@@ -99,12 +99,6 @@ async def process_query():
                 # Fetch data
                 price_data = await market_service.get_price(crypto_name)
                 market_data = await market_service.get_market_data(crypto_name)
-                news = await news_service.get_news(crypto_name)
-                
-                # Generate AI response
-                ai_response = await ai_service.generate_response(
-                    query, price_data, market_data, news
-                )
                 
                 # Display results in two columns
                 col1, col2 = st.columns(2)
@@ -132,19 +126,36 @@ async def process_query():
                 
                 with col2:
                     st.subheader("📰 Latest News")
-                    for item in news:
-                        st.markdown(f"""
-                        <div class="news-card">
-                            <h4>{item['title']}</h4>
-                            <p>Source: {item['source']}</p>
-                            <p>Published: {item['published_at']}</p>
-                            <a href="{item['url']}" target="_blank">Read more</a>
-                        </div>
-                        """, unsafe_allow_html=True)
+                    try:
+                        news = await news_service.get_news(crypto_name)
+                        if news:
+                            for item in news:
+                                st.markdown(f"""
+                                <div class="news-card">
+                                    <h4>{item['title']}</h4>
+                                    <p>Source: {item['source']}</p>
+                                    <p>Published: {item['published_at']}</p>
+                                    <a href="{item['url']}" target="_blank">Read more</a>
+                                </div>
+                                """, unsafe_allow_html=True)
+                        else:
+                            st.info("No recent news found for this cryptocurrency.")
+                    except ValueError as ve:
+                        st.error(str(ve))
+                        st.info("To enable news functionality, please set up your CryptoPanic API key in the .env file.")
+                    except Exception as e:
+                        st.error(f"Failed to fetch news: {str(e)}")
+                        st.info("News functionality is temporarily unavailable. Please try again later.")
                 
-                # AI Analysis
-                st.subheader("🤖 AI Analysis")
-                st.markdown(ai_response)
+                # Generate AI response
+                try:
+                    ai_response = await ai_service.generate_response(
+                        query, price_data, market_data, news if 'news' in locals() else []
+                    )
+                    st.subheader("🤖 AI Analysis")
+                    st.markdown(ai_response)
+                except Exception as e:
+                    st.error(f"Failed to generate AI analysis: {str(e)}")
                 
         except Exception as e:
             st.error(f"An error occurred: {str(e)}")
