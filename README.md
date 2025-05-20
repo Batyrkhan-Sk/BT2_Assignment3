@@ -65,5 +65,11 @@ A modern web application that provides real-time cryptocurrency information, new
 
 
 ## Screenshots
+![image](https://github.com/user-attachments/assets/344a1153-186c-4cf4-b07f-2fae7f5c3a2d)
+
+![image](https://github.com/user-attachments/assets/1b01880c-2a13-4b9c-ab16-ad6aea60f3a3)
+
+![image](https://github.com/user-attachments/assets/2b13b76c-7b11-4e49-9782-60c12008b652)
+
 
 
