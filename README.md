@@ -58,26 +58,12 @@ A modern web application that provides real-time cryptocurrency information, new
 - **Frontend**: Streamlit
 - **Backend**: Python
 - **APIs**:
-  - OpenAI GPT for AI analysis
+  - Ollama for AI analysis
   - CoinGecko for market data
   - CryptoPanic for news
 - **Data Processing**: Python with async support
 
-## Error Handling 
 
-The application includes comprehensive error handling for:
-- API rate limits
-- Network connectivity issues
-- Invalid cryptocurrency names
-- Missing API keys
-- Data parsing errors
-
-## Contributing 
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
+## Screenshots
 
 
