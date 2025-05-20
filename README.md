@@ -1,21 +1,21 @@
-# AI Crypto Assistant 
+# 💲AI Crypto Assistant💲
 
 A modern web application that provides real-time cryptocurrency information, news, and AI-powered insights using Streamlit.
 
-## Features 
+## 🥰Features🥰
 
 - Real-time price and market data from CoinGecko
-- Latest news from CoinTelegraph
-- AI-powered analysis using OpenAI GPT
+- Latest news from CryptoPanic
+- AI-powered analysis using Ollama
 - User-friendly interface with Streamlit
 - Automatic data updates
 - Responsive design
 
-## Setup 
+## ✅Setup✅
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone --branch assignment4 --single-branch https://github.com/Batyrkhan-Sk/BT2_Assignment3.git
    cd <repository-name>
    ```
 
@@ -38,7 +38,7 @@ A modern web application that provides real-time cryptocurrency information, new
    CRYPTOPANIC_API_KEY=your_cryptopanic_api_key
    ```
 
-## Running the Application 
+## 🙂‍↕️Running the Application🙂‍↕️
 
 1. Start the Streamlit app:
    ```bash
@@ -47,13 +47,13 @@ A modern web application that provides real-time cryptocurrency information, new
 
 2. Open your browser and navigate to `http://localhost:8501`
 
-## Example Queries 
+## 👻Example Queries👻
 
 - "What's the latest news about Ethereum?"
 - "What's the current price and market cap of Solana?"
 - "Tell me about Bitcoin's recent performance"
 
-## Technologies Used 
+## 🤖Technologies Used🤖
 
 - **Frontend**: Streamlit
 - **Backend**: Python
@@ -62,7 +62,6 @@ A modern web application that provides real-time cryptocurrency information, new
   - CoinGecko for market data
   - CryptoPanic for news
 - **Data Processing**: Python with async support
-
 
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/344a1153-186c-4cf4-b07f-2fae7f5c3a2d)
