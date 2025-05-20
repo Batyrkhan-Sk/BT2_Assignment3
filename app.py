@@ -7,7 +7,6 @@ from services.ai_service import AIService
 import asyncio
 from datetime import datetime
 
-# Page config must be the first Streamlit command
 st.set_page_config(
     page_title="AI Crypto Assistant",
     page_icon="🤖",
@@ -15,11 +14,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Load environment variables
 load_dotenv(override=True)
 
-
-# Custom CSS
 st.markdown("""
     <style>
     .main {
@@ -55,14 +51,12 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Initialize services
 @st.cache_resource
 def init_services():
     return MarketService(), NewsService(), AIService()
 
 market_service, news_service, ai_service = init_services()
 
-# Sidebar
 with st.sidebar:
     st.title("🤖 AI Crypto Assistant")
     st.markdown("---")
@@ -82,25 +76,20 @@ with st.sidebar:
     - Tell me about Bitcoin's recent performance
     """)
 
-# Main content
 st.title("AI Crypto Assistant")
 st.markdown("Ask any question about cryptocurrencies in the top 50 by market cap.")
 
-# Query input
 query = st.text_input("Enter your question:", placeholder="e.g., What's the latest news about Ethereum?")
 
 async def process_query():
     if query:
         try:
             with st.spinner("Analyzing your query..."):
-                # Extract crypto name using AI
                 crypto_name = await ai_service.extract_crypto_name(query)
                 
-                # Fetch data
                 price_data = await market_service.get_price(crypto_name)
                 market_data = await market_service.get_market_data(crypto_name)
                 
-                # Display results in two columns
                 col1, col2 = st.columns(2)
                 
                 with col1:
@@ -127,7 +116,6 @@ async def process_query():
                 with col2:
                     st.subheader("📰 Latest News")
                     try:
-                        # Add timeout for news fetching
                         news = await asyncio.wait_for(news_service.get_news(crypto_name), timeout=10.0)
                         if news and len(news) > 0:
                             for item in news:
@@ -148,7 +136,6 @@ async def process_query():
                         st.error(f"Error fetching news: {str(e)}")
                         st.info("Please try again later or try a different cryptocurrency.")
                 
-                # Generate AI response
                 try:
                     ai_response = await ai_service.generate_response(
                         query, price_data, market_data, news if 'news' in locals() else []
@@ -157,19 +144,10 @@ async def process_query():
                     st.markdown(ai_response)
                 except Exception as e:
                     st.error(f"Failed to generate AI analysis: {str(e)}")
-                
+                    
         except Exception as e:
-            st.error(f"An error occurred: {str(e)}")
+            st.error(f"Error: {str(e)}")
+            st.info("Please try again with a different query.")
 
-# Footer
-st.markdown("---")
-st.markdown(f"""
-<div style='text-align: center'>
-    <p>Powered by CoinTelegraph, CoinGecko, and CryptoPanic APIs</p>
-    <p>Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
-</div>
-""", unsafe_allow_html=True)
-
-# Run the async function
 if query:
-    asyncio.run(process_query()) 
+    asyncio.run(process_query())
