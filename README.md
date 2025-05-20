@@ -11,7 +11,7 @@ A modern web application that provides real-time cryptocurrency information, new
 - Automatic data updates
 - Responsive design
 
-## Setup 🛠
+## Setup 
 
 1. Clone the repository:
    ```bash
@@ -80,6 +80,6 @@ The application includes comprehensive error handling for:
 4. Push to the branch
 5. Create a Pull Request
 
-## License 📄
+## License 
 
 This project is licensed under the MIT License - see the LICENSE file for details. 
