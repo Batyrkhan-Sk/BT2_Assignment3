@@ -63,7 +63,7 @@ A modern web application that provides real-time cryptocurrency information, new
   - CryptoPanic for news
 - **Data Processing**: Python with async support
 
-## Screenshots
+## 📸Screenshots📸
 ![image](https://github.com/user-attachments/assets/344a1153-186c-4cf4-b07f-2fae7f5c3a2d)
 
 ![image](https://github.com/user-attachments/assets/1b01880c-2a13-4b9c-ab16-ad6aea60f3a3)
